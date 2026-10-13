@@ -1,0 +1,32 @@
+class ApplicationController < ActionController::Base
+  allow_browser versions: :modern
+  before_action :load_current_user
+  before_action :authenticate_user!
+  before_action :authorize_user!
+
+  private
+
+  def load_current_user
+    if (session_record = Session.find_by_id(cookies.signed[:session_token]))
+      Current.session = session_record
+      Current.user = session_record.user
+    elsif (token = cookies.encrypted[:device_token]).present? &&
+        (user = User.find_by(device_token: token))
+      Current.user = user
+    end
+  end
+
+  def authenticate_user!
+    return if Current.user
+    redirect_to user_home_path
+  end
+
+  def authorize_user!
+    return unless params[:user_id].present?
+    
+    unless Current.user.id == params[:user_id].to_i
+      redirect_to home_path, alert: "Not authorised."
+    end
+  end
+
+end

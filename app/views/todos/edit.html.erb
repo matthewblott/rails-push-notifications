@@ -1,0 +1,11 @@
+<% content_for :title, @todo.title %>
+
+<% content_for :header_controls do %>
+  <div role="group">
+    <a href="<%= user_todos_path %>" role="button">Todos</a>
+    <button form="todo_form" formaction="<%= user_todo_destroy_path %>" name="_method" value="delete">Delete</button>
+    <button form="todo_form" formaction="<%= user_todo_update_path %>" name="_method" value="patch">Save</button>
+  </div>
+<% end %>
+
+<%= render "form", todo: @todo %>

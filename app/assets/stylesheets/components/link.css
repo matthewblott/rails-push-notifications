@@ -1,0 +1,14 @@
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.link {
+  background: none;
+  border: none;
+  font-size: inherit;
+  color: inherit;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+}
