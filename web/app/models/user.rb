@@ -1,7 +1,6 @@
 class User < AuthRecord
   has_many :sessions, dependent: :destroy
-  before_validation :generate_device_token, on: :create
-  validates :device_token, presence: false, uniqueness: true, allow_nil: true
+  # validates :device_token, presence: false, uniqueness: true, allow_nil: true
   validates :email, presence: false, uniqueness: true, allow_nil: true
   after_create :create_tenant
   after_destroy :drop_tenant
@@ -30,9 +29,9 @@ class User < AuthRecord
 
   private
 
-  def generate_device_token
-    self.device_token ||= SecureRandom.urlsafe_base64(32)
-  end
+  # def generate_device_token
+  #   self.device_token ||= SecureRandom.urlsafe_base64(32)
+  # end
 
   def create_tenant
     Apartment::Tenant.create(id.to_s)

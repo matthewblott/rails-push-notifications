@@ -11,8 +11,9 @@ class ApplicationController < ActionController::Base
       Current.session = session_record
       Current.user = session_record.user
     elsif (token = cookies.encrypted[:device_token]).present? &&
-        (user = User.find_by(device_token: token))
-      Current.user = user
+        (session = Session.find_by(device_token: token))
+      Current.session = session
+      Current.user = session&.user
     end
   end
 

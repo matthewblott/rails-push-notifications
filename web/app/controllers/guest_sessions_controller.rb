@@ -7,14 +7,16 @@ class GuestSessionsController < ApplicationController
     end
 
     user = User.create!
+    session = user.sessions.create!
 
     cookies.permanent.encrypted[:device_token] = {
-      value: user.device_token,
+      value: session.device_token,
       httponly: true,
       secure: Rails.env.production?,
       same_site: :lax
     }
 
+    Current.session = session
     Current.user = user
 
     redirect_to user_home_path(Current.user)
