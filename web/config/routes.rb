@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  post 'sessions/current/push_token', to: 'push_registrations#update'
+
   scope '/:user_id', constraints: { user_id: /\d+/ }, as: :user do
     controller :home do
       get 'home', action: :index, as: :home

@@ -3,8 +3,8 @@
 <% content_for :header_controls do %>
   <div role="group">
     <a href="<%= user_todos_path %>" role="button">Todos</a>
-    <button form="todo_form" formaction="<%= user_todo_destroy_path %>" name="_method" value="delete">Delete</button>
-    <button form="todo_form" formaction="<%= user_todo_update_path %>" name="_method" value="patch">Save</button>
+    <button form="todo_form" formaction="<%= user_todo_destroy_path %>" name="_method" value="delete" data-controller="bridge--button" data-bridge-side="left" >Delete</button>
+    <button form="todo_form" formaction="<%= user_todo_update_path %>" name="_method" value="patch" data-controller="bridge--button">Save</button>
   </div>
 <% end %>
 

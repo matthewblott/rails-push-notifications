@@ -6,8 +6,10 @@ class GuestSessionsController < ApplicationController
       return redirect_to user_home_path(Current.user)
     end
 
+    platform = helpers.detect_platform(request)
+
     user = User.create!
-    session = user.sessions.create!
+    session = user.sessions.create!(platform: platform) 
 
     cookies.permanent.encrypted[:device_token] = {
       value: session.device_token,

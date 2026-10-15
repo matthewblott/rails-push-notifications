@@ -14,9 +14,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_27_140340) do
   create_table "sessions", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "device_token"
+    t.integer "platform"
+    t.string "push_token"
+    t.string "push_endpoint"
+    t.boolean "push_enabled", default: true
+    t.datetime "push_token_updated_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["device_token"], name: "index_sessions_on_device_token", unique: true
+    t.index ["push_endpoint"], name: "index_sessions_on_push_endpoint", unique: true
+    t.index ["push_token"], name: "index_sessions_on_push_token", unique: true
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 

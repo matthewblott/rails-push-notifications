@@ -3,7 +3,6 @@ class AuthController < EmailAuthController
 
   TEST_USER_EMAIL = 'jane@example.com'
   TEST_USER_OTP = '123456'
-
   def send_code
     email = params[:email].to_s.strip.downcase
 
@@ -61,7 +60,10 @@ class AuthController < EmailAuthController
     session.delete(:otp_secret)
     session.delete(:email)
 
-    new_session = user.sessions.create!
+    platform = helpers.detect_platform(request)
+
+    new_session = user.sessions.create!(platform: platform)
+
     set_session_cookie(new_session)
     Current.session = new_session
     Current.user = user

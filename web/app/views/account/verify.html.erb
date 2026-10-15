@@ -4,5 +4,5 @@
   <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
   <input type="email" name="email" placeholder="alice@example.com" value="<%= @email %>" required>
   <input type="number" name="otp_code" placeholder="123456" required>
-  <button>send otp</button>
+  <button data-controller="bridge--button" class="hotwire-native-hidden">Verify Code</button>
 </form>

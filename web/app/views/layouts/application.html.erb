@@ -19,7 +19,10 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
+  <body
+    <%= "data-controller=\"#{content_for(:page_controller)}\"".html_safe if content_for?(:page_controller) %>
+    class="<%= 'hotwire-native' if is_native_app? %>"
+  >
     <header class="hotwire-native-hidden">
       <%= render "shared/header" %>
     </header>

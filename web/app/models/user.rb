@@ -27,11 +27,14 @@ class User < AuthRecord
     otp_enabled?
   end
 
-  private
+  def notify_push(title:, body:, url: nil)
+    sessions.push_enabled.with_push_registration.find_each do |session|
+      # session.push_notify(title:, body:, url:)
+      PushNotificationJob.perform_later(session.id, title:, body:, url:)
+    end
+  end
 
-  # def generate_device_token
-  #   self.device_token ||= SecureRandom.urlsafe_base64(32)
-  # end
+  private
 
   def create_tenant
     Apartment::Tenant.create(id.to_s)
