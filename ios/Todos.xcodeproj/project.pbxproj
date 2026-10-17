@@ -16,22 +16,9 @@
 		C93883DF300A35AA00DA3CB5 /* Todos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Todos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		C93883F1300A35AB00DA3CB5 /* Exceptions for "App" folder in "Todos" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Configuration/Info.plist,
-			);
-			target = C93883DE300A35AA00DA3CB5 /* Todos */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		C93883E1300A35AA00DA3CB5 /* App */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				C93883F1300A35AB00DA3CB5 /* Exceptions for "App" folder in "Todos" target */,
-			);
 			path = App;
 			sourceTree = "<group>";
 		};

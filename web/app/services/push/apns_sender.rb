@@ -42,12 +42,15 @@ module Push
       end
 
       def connection
+        # Production
         # Thread.current[:apnotic_connection] ||= Apnotic::Connection.new(
         #   auth_method: :token,
         #   cert_path: Rails.root.join(Rails.application.credentials.apns[:key_path]).to_s,
         #   key_id: Rails.application.credentials.apns[:key_id],
         #   team_id: Rails.application.credentials.apns[:team_id]
         # )
+        
+        # Development
         Thread.current[:apnotic_connection] ||= Apnotic::Connection.development(
           auth_method: :token,
           cert_path: Rails.root.join(Rails.application.credentials.apns[:key_path]).to_s,

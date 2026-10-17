@@ -19,7 +19,8 @@ class ApplicationController < ActionController::Base
 
   def authenticate_user!
     return if Current.user
-    redirect_to user_home_path
+    # redirect_to user_home_path
+    redirect_to home_path
   end
 
   def authorize_user!

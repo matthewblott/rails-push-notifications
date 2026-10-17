@@ -1,0 +1,137 @@
+{
+  "settings": {},
+  "rules": [
+    {
+      "patterns": [
+        ".*"
+      ],
+      "properties": {
+        "context": "default",
+        "pull_to_refresh_enabled": true
+      }
+    },
+    {
+      "patterns": [
+        "/info"
+      ],
+      "properties": {
+        "presentation": "replace_root"
+      }
+    },
+    {
+      "patterns": [
+        "^/auth"
+      ],
+      "properties": {
+        "presentation": "replace_root"
+      }
+    },
+    {
+      "patterns": [
+        "^/auth/new"
+      ],
+      "properties": {
+        "context": "modal",
+        "presentation": "default"
+      }
+    },
+    {
+      "patterns": [
+        "^/auth/verify"
+      ],
+      "properties": {
+        "context": "modal",
+        "presentation": "default"
+      }
+    },
+    {
+      "patterns": [
+        "^/\\d+/home/?$"
+      ],
+      "properties": {
+        "presentation": "replace_root",
+        "hide_back_button": true
+      }
+    },
+    {
+      "patterns": [
+        "^/\\d+/account/new"
+      ],
+      "properties": {
+        "context": "modal",
+        "presentation": "default"
+      }
+    },
+    {
+      "patterns": [
+        "^/\\d+/account/verify"
+      ],
+      "properties": {
+        "context": "modal",
+        "presentation": "default"
+      }
+    },
+    {
+      "patterns": [
+        "^/\\d+/account/sign-out"
+      ],
+      "properties": {
+        "context": "modal",
+        "presentation": "default"
+      }
+    },
+    {
+      "patterns": [
+        "^/\\d+/account/delete"
+      ],
+      "properties": {
+        "context": "modal",
+        "presentation": "default"
+      }
+    },
+    {
+      "patterns": [
+        "^/\\d+/exercises/new"
+      ],
+      "properties": {
+        "context": "modal",
+        "presentation": "default"
+      }
+    },
+    {
+      "patterns": [
+        "^/\\d+/exercises/[0-9]+"
+      ],
+      "properties": {
+        "context": "modal",
+        "presentation": "default"
+      }
+    },
+    {
+      "patterns": [
+        "^/\\d+/workouts"
+      ],
+      "properties": {
+        "presentation": "default"
+      }
+    },
+    {
+      "patterns": [
+        "^/\\d+/workout-exercises/new(\\?.*)?$"
+      ],
+      "properties": {
+        "context": "modal",
+        "presentation": "default"
+      }
+    },
+    {
+      "patterns": [
+        "^/\\d+/sets/new(\\?.*)?$"
+      ],
+      "properties": {
+        "context": "modal",
+        "presentation": "default"
+      }
+    }
+  ]
+}
