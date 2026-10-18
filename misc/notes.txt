@@ -1,9 +1,0 @@
-For testing in the Rails console to see if a device is registered:
-session = Session.where.not(push_endpoint: nil).last
-
-Push::ApnsSender.send(session, title: "Test", body: "Hello from Rails", url: "/")
-
-curl -d "test" https://ntfy.sh/upmVlhsjWhbrR5
-https://ntfy.sh/upmVlhsjWhbrR5?up=1
-
-curl -d '{"title": "Test", "body": "Hello from ntfy", "url": "/"}' https://ntfy.sh/upmVlhsjWhbrR5

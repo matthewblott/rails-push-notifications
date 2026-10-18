@@ -56,8 +56,15 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
   ) {
     defer { completionHandler() }
     
+    print("📬 didReceive fired, userInfo: \(response.notification.request.content.userInfo)")
+    
     guard let urlString = response.notification.request.content.userInfo["url"] as? String,
-          let url = URL(string: urlString) else { return }
+          let url = URL(string: urlString) else {
+      print("📬 Failed to extract URL from userInfo")
+      return
+    }
+    
+    print("📬 Routing to: \(url)")
     
     NotificationRouter.route(to: url)
   }
@@ -73,13 +80,23 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
   }
 }
 
-
 enum NotificationRouter {
   static func route(to url: URL) {
     guard let sceneDelegate = UIApplication.shared.connectedScenes
-      .first?.delegate as? SceneDelegate else { return }
+      .first?.delegate as? SceneDelegate else {
+      print("📬 Could not get SceneDelegate")
+      return
+    }
+   
+    guard let baseURL = Endpoint.baseURL,
+          let resolvedURL = URL(string: url.relativeString, relativeTo: baseURL)?.absoluteURL else {
+      print("📬 Failed to resolve notification URL against base URL")
+      return
+    }
     
-    sceneDelegate.navigator.route(url)
+    print("📬 Calling navigator.route(\(url))")
+//    sceneDelegate.navigator.route(url)
+    sceneDelegate.navigator.route(resolvedURL)
   }
 }
 
