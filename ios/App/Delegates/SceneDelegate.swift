@@ -16,6 +16,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     window?.rootViewController = navigator.rootViewController
     window?.makeKeyAndVisible()
     navigator.start()
+    
+    // The following needs to happen after the user has signed in or push notifications won't work
     (UIApplication.shared.delegate as? AppDelegate)?.requestPushAuthorization()
   }
 }

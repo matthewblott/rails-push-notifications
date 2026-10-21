@@ -12,7 +12,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		C901E650307FD61800EC29BF /* Todos.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Todos.entitlements; sourceTree = "<group>"; };
 		C93883DF300A35AA00DA3CB5 /* Todos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Todos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -53,7 +52,6 @@
 		C93883D6300A35AA00DA3CB5 = {
 			isa = PBXGroup;
 			children = (
-				C901E650307FD61800EC29BF /* Todos.entitlements */,
 				C93883E1300A35AA00DA3CB5 /* App */,
 				C93883E0300A35AA00DA3CB5 /* Products */,
 			);

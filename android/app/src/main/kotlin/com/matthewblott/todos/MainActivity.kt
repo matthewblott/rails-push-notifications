@@ -2,7 +2,10 @@ package com.matthewblott.todos
 
 import android.Manifest
 import android.app.Activity
+import android.app.ComponentCaller
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -33,16 +36,19 @@ class MainActivity : HotwireActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     enableEdgeToEdge()
 
+    requestNotificationPermissionIfNeeded(this)
+    
     val distributors = UnifiedPush.getDistributors(this)
 
     if (distributors.isEmpty()) {
       // No distributor installed — prompt to install one
-      requestNotificationPermissionIfNeeded(this) 
       PushDistributorHelper.ensureDistributorAndRegister(this) {
         PushDistributorHelper.showInstallPrompt(this)
       }
     } else if (distributors.size == 1) {
       // Only one available — just use it, no need to ask the user to choose
+      // The user needs to be signed in prior to running this because cookies are used
+      // and the push notifications are tied to the signed-in session.
       UnifiedPush.saveDistributor(this, distributors.first())
       UnifiedPush.register(this)
     } else {
@@ -77,6 +83,21 @@ class MainActivity : HotwireActivity() {
     }
   }
 
+  override fun onNewIntent(intent: Intent) {
+    super.onNewIntent(intent)
+    handleNotificationIntent(intent)
+  }
+  
+  private fun handleNotificationIntent(intent: Intent) {
+    val path = intent.getStringExtra("notification_url") ?: return
+    val resolvedUrl = Uri.parse(Settings.current.url).buildUpon()
+      .encodedPath(path)
+      .build()
+      .toString()
+
+    delegate.currentNavigator?.route(resolvedUrl)
+  }
+  
   override fun navigatorConfigurations() = listOf(
     NavigatorConfiguration(
       name = "main",
@@ -99,4 +120,6 @@ class MainActivity : HotwireActivity() {
       }
     }
   } 
+  
+  
 }

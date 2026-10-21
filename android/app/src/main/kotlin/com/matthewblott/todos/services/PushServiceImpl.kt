@@ -3,11 +3,14 @@ package com.matthewblott.todos.services
 import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import com.matthewblott.todos.MainActivity
 import com.matthewblott.todos.R
 import org.json.JSONObject
 import org.unifiedpush.android.connector.FailedReason
@@ -16,7 +19,6 @@ import org.unifiedpush.android.connector.data.PushEndpoint
 import org.unifiedpush.android.connector.data.PushMessage
 
 class PushServiceImpl : PushService() {
-
   override fun onNewEndpoint(endpoint: PushEndpoint, instance: String) {
     PushEndpointUploader.upload(this, endpoint.url)
   }
@@ -29,7 +31,7 @@ class PushServiceImpl : PushService() {
       return
     }
 
-    val title = json.optString("title", "Skribl")
+    val title = json.optString("title", "Todos")
     val body = json.optString("body", "")
     val url = json.optString("url", null)
 
@@ -68,11 +70,22 @@ class PushServiceImpl : PushService() {
       notificationManager.createNotificationChannel(channel)
     }
 
+    val intent = Intent(this, MainActivity::class.java).apply {
+      flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
+      putExtra("notification_url", url)
+    }
+
+    val pendingIntent = PendingIntent.getActivity(
+      this, 0, intent,
+      PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+    )
+    
     val notification = NotificationCompat.Builder(this, channelId)
       .setContentTitle(title)
       .setContentText(body)
       .setSmallIcon(R.drawable.ic_notification)
       .setAutoCancel(true)
+      .setContentIntent(pendingIntent)
       .build()
 
     notificationManager.notify(System.currentTimeMillis().toInt(), notification)

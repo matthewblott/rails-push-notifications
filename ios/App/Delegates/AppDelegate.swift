@@ -95,7 +95,6 @@ enum NotificationRouter {
     }
     
     print("📬 Calling navigator.route(\(url))")
-//    sceneDelegate.navigator.route(url)
     sceneDelegate.navigator.route(resolvedURL)
   }
 }
