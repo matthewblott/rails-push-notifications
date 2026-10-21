@@ -55,6 +55,7 @@ class AccountController < EmailAuthController
   end
 
   def sign_out 
+    Current.session&.clear_push_registration!
     session_id = cookies.signed[:session_token]
     Session.find_by(id: session_id)&.destroy
     cookies.delete(:session_token)

@@ -8,6 +8,3 @@ pin_all_from 'app/javascript/controllers', under: 'controllers'
 
 pin '@joemasilotti/bridge-components', to: '@joemasilotti--bridge-components.js' # @0.13.2
 pin '@hotwired/hotwire-native-bridge', to: '@hotwired--hotwire-native-bridge.js' # @1.2.2
-
-pin 'lib/canvas', to: 'lib/canvas.js'
-

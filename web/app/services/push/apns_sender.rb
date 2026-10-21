@@ -49,15 +49,33 @@ module Push
         #   key_id: Rails.application.credentials.apns[:key_id],
         #   team_id: Rails.application.credentials.apns[:team_id]
         # )
-        
+        #
         # Development
-        Thread.current[:apnotic_connection] ||= Apnotic::Connection.development(
+        # Thread.current[:apnotic_connection] ||= Apnotic::Connection.development(
+        #   auth_method: :token,
+        #   cert_path: Rails.root.join(Rails.application.credentials.apns[:key_path]).to_s,
+        #   key_id: Rails.application.credentials.apns[:key_id],
+        #   team_id: Rails.application.credentials.apns[:team_id]
+        # )
+
+        Thread.current[:apnotic_connection] ||= build_connection
+      end
+
+      def build_connection
+        opts = {
           auth_method: :token,
           cert_path: Rails.root.join(Rails.application.credentials.apns[:key_path]).to_s,
           key_id: Rails.application.credentials.apns[:key_id],
           team_id: Rails.application.credentials.apns[:team_id]
-        )
+        }
+
+        apns_environment == :production ? Apnotic::Connection.new(**opts) : Apnotic::Connection.development(**opts)
       end
+
+      def apns_environment
+        Rails.application.credentials.apns[:environment]&.to_sym || :development
+      end
+
     end
   end
 end

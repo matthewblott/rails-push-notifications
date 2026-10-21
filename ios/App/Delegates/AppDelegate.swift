@@ -10,9 +10,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 #if DEBUG
     Hotwire.config.debugLoggingEnabled = true
 #endif
-    Hotwire.registerBridgeComponents([
-      BridgeComponents.ButtonComponent.self,
-    ])
+    Hotwire.registerBridgeComponents(
+      Bridgework.coreComponents + [
+        AuthenticatedComponent.self,
+      ]
+    )
+    
     let localPathConfigURL = Bundle.main.url(forResource: "path-configuration", withExtension: "json")!
 
     Hotwire.loadPathConfiguration(from: [
