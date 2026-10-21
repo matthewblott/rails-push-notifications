@@ -14,6 +14,7 @@ import android.webkit.CookieManager
 import androidx.activity.enableEdgeToEdge
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.matthewblott.todos.components.AuthenticatedComponent
 import dev.hotwire.navigation.activities.HotwireActivity
 import dev.hotwire.navigation.navigator.NavigatorConfiguration
 import dev.hotwire.navigation.util.applyDefaultImeWindowInsets
@@ -36,25 +37,6 @@ class MainActivity : HotwireActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     enableEdgeToEdge()
 
-    requestNotificationPermissionIfNeeded(this)
-    
-    val distributors = UnifiedPush.getDistributors(this)
-
-    if (distributors.isEmpty()) {
-      // No distributor installed — prompt to install one
-      PushDistributorHelper.ensureDistributorAndRegister(this) {
-        PushDistributorHelper.showInstallPrompt(this)
-      }
-    } else if (distributors.size == 1) {
-      // Only one available — just use it, no need to ask the user to choose
-      // The user needs to be signed in prior to running this because cookies are used
-      // and the push notifications are tied to the signed-in session.
-      UnifiedPush.saveDistributor(this, distributors.first())
-      UnifiedPush.register(this)
-    } else {
-      // Multiple distributors — let the user pick (rare for most users, but possible)
-    }
-    
     Hotwire.loadPathConfiguration(
       context = this,
       location = PathConfiguration.Location(
@@ -65,6 +47,7 @@ class MainActivity : HotwireActivity() {
     Hotwire.config.jsonConverter = KotlinXJsonConverter()
 
     Hotwire.registerBridgeComponents(
+      BridgeComponentFactory("authenticated", ::AuthenticatedComponent),
       BridgeComponentFactory("button", ::ButtonComponent),
       BridgeComponentFactory("toast", ::ToastComponent),
     )
@@ -120,6 +103,27 @@ class MainActivity : HotwireActivity() {
       }
     }
   } 
+  
+  fun requestNotificationPermission() {
+    requestNotificationPermissionIfNeeded(this)
+    val distributors = UnifiedPush.getDistributors(this)
+
+    if (distributors.isEmpty()) {
+      // No distributor installed — prompt to install one
+      PushDistributorHelper.ensureDistributorAndRegister(this) {
+        PushDistributorHelper.showInstallPrompt(this)
+      }
+    } else if (distributors.size == 1) {
+      // Only one available — just use it, no need to ask the user to choose
+      // The user needs to be signed in prior to running this because cookies are used
+      // and the push notifications are tied to the signed-in session.
+      UnifiedPush.saveDistributor(this, distributors.first())
+      UnifiedPush.register(this)
+    } else {
+      // Multiple distributors — let the user pick (rare for most users, but possible)
+    }
+
+  }
   
   
 }

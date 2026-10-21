@@ -1,11 +1,10 @@
 class User < AuthRecord
   has_many :sessions, dependent: :destroy
-  # validates :device_token, presence: false, uniqueness: true, allow_nil: true
   validates :email, presence: false, uniqueness: true, allow_nil: true
   after_create :create_tenant
   after_destroy :drop_tenant
 
-  OTP_ISSUER = "MyApp"
+  OTP_ISSUER = 'Todos'
 
   def self.generate_otp_secret
     ROTP::Base32.random_base32
@@ -29,7 +28,6 @@ class User < AuthRecord
 
   def notify_push(title:, body:, url: nil)
     sessions.push_enabled.with_push_registration.find_each do |session|
-      # session.push_notify(title:, body:, url:)
       PushNotificationJob.perform_later(session.id, title:, body:, url:)
     end
   end
@@ -50,13 +48,13 @@ class User < AuthRecord
     # Adjust this to however your tenant DB paths are configured.
     # If you're using Apartment's default SQLite adapter, tenant files
     # usually live in the same directory as your other SQLite DBs.
-    Rails.root.join("storage", Rails.env, "#{id}.sqlite3").to_s
+    Rails.root.join('storage', Rails.env, "#{id}.sqlite3").to_s
   end
 
   def checkpoint_wal
     # Only checkpoint if we can actually connect to the tenant DB
     Apartment::Tenant.switch(id.to_s) do
-      ActiveRecord::Base.connection.execute("PRAGMA wal_checkpoint(TRUNCATE)")
+      ActiveRecord::Base.connection.execute('PRAGMA wal_checkpoint(TRUNCATE)')
     end
   rescue ActiveRecord::ActiveRecordError, SQLite3::Exception
     # Tenant DB might already be in a weird state; don't block the drop
