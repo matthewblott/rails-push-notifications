@@ -2,15 +2,12 @@ package com.matthewblott.todos
 
 import android.Manifest
 import android.app.Activity
-import android.app.ComponentCaller
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.webkit.CookieManager
 import androidx.activity.enableEdgeToEdge
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -124,6 +121,5 @@ class MainActivity : HotwireActivity() {
     }
 
   }
-  
   
 }

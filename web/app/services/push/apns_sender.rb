@@ -18,7 +18,7 @@ module Push
       def build_notification(token, title:, body:, url:)
         notification = Apnotic::Notification.new(token)
         notification.alert = { title: title, body: body }
-        notification.sound = "default"
+        notification.sound = 'default'
         notification.topic = Rails.application.credentials.apns[:bundle_id]
         notification.custom_payload = { url: url }.compact
         notification
@@ -28,10 +28,10 @@ module Push
         return if response.ok?
 
         case response.status
-        when "410"
+        when '410'
           session.update!(push_token: nil)
-        when "400"
-          if response.body.is_a?(Hash) && response.body["reason"] == "BadDeviceToken"
+        when '400'
+          if response.body.is_a?(Hash) && response.body['reason'] == 'BadDeviceToken'
             session.update!(push_token: nil)
           else
             Rails.logger.error("APNs rejected push: #{response.body}")

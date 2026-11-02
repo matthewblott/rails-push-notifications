@@ -25,7 +25,7 @@ rails db:migrate:auth
 Run the migrations for the tenant Todos database:
 ```
 
-rails db:migrate:primary
+rails db:migrate:tenant
 ```
 
 To create a test user with records run the following:

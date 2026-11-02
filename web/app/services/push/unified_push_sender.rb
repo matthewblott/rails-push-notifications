@@ -1,4 +1,4 @@
-require "net/http"
+require 'net/http'
 
 module Push
   class UnifiedPushSender
@@ -7,10 +7,10 @@ module Push
       uri = URI.parse(session.push_endpoint)
 
       http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = uri.scheme == "https"
+      http.use_ssl = uri.scheme == 'https'
 
       request = Net::HTTP::Post.new(uri.request_uri)
-      request["Content-Type"] = "application/json"
+      request['Content-Type'] = 'application/json'
       request.body = payload
 
       response = http.request(request)

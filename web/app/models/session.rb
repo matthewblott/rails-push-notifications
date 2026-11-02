@@ -9,24 +9,33 @@ class Session < AuthRecord
   enum :platform, { ios: 0, android: 1, web: 2 }
 
   scope :push_enabled, -> { where(push_enabled: true) }
-  scope :with_push_registration, -> {
-    where("(platform = ? AND push_token IS NOT NULL) OR (platform = ? AND push_endpoint IS NOT NULL)",
-          platforms[:ios], platforms[:android])
-  }
+  # scope :with_push_registration, -> {
+  #   where("(platform = ? AND push_token IS NOT NULL) OR (platform = ? AND push_endpoint IS NOT NULL)",
+  #         platforms[:ios], platforms[:android])
+  # }
+
+  scope :with_push_registration, -> { where.not(push_token: nil).or(where.not(push_endpoint: nil)) }
 
   def push_notify(title:, body:, url: nil)
     return unless push_enabled?
 
-    case platform.to_sym
-    when :ios
-      return unless push_token.present?
-      Push::ApnsSender.send(self, title:, body:, url:)
-    when :android
-      return unless push_endpoint.present?
+    # case platform.to_sym
+    # when :ios
+    #   return unless push_token.present?
+    #   Push::ApnsSender.send(self, title:, body:, url:)
+    # when :android
+    #   return unless push_endpoint.present?
+    #   Push::UnifiedPushSender.send(self, title:, body:, url:)
+    # when :web
+    #   # no push transport (yet) — no-op
+    # end
+
+    if push_endpoint.present?
       Push::UnifiedPushSender.send(self, title:, body:, url:)
-    when :web
-      # no push transport (yet) — no-op
+    elsif push_token.present?
+      (ios? ? Push::ApnsSender : Push::FcmSender).send(self, title:, body:, url:)
     end
+
   end
 
   def deliver_push_token!(token)

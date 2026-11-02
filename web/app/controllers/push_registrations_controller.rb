@@ -1,36 +1,36 @@
 class PushRegistrationsController < ApplicationController
-  # relies on your existing before_action (likely `load_current_user`
-  # or whatever wraps it) having already set Current.session
   skip_before_action :verify_authenticity_token, only: [:update]
 
+  ALLOWED_PLATFORMS = %w[ios android].freeze
+
   def update
-    unless Current.session
-      return head :unauthorized
-    end
+    return head :unauthorized unless Current.session
 
     unless ALLOWED_PLATFORMS.include?(params[:platform])
       return render json: { error: 'invalid platform' }, status: :unprocessable_entity
     end
 
-    case params[:platform]
-    when 'ios'
+    provider = params[:provider].presence || (params[:platform] == 'ios' ? 'apns' : 'unifiedpush')
+
+    case provider
+    when 'apns', 'fcm'
       Current.session.update!(
         platform: params[:platform],
         push_token: params[:push_token],
+        push_endpoint: nil,
         push_token_updated_at: Time.current
       )
-    when 'android'
+    when 'unifiedpush'
       Current.session.update!(
         platform: params[:platform],
-        push_endpoint: params[:push_token], # Android sends its UnifiedPush endpoint through the same param
+        push_endpoint: params[:push_token], # the UnifiedPush endpoint arrives in the push_token param
+        push_token: nil,
         push_token_updated_at: Time.current
       )
+    else
+      return render json: { error: 'invalid provider' }, status: :unprocessable_entity
     end
 
     head :no_content
   end
-
-  private
-
-  ALLOWED_PLATFORMS = %w[ios android].freeze
 end

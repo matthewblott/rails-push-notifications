@@ -4,8 +4,13 @@ plugins {
   alias(libs.plugins.compose.compiler)
 }
 
+if (gradle.startParameter.taskNames.any { it.contains("play", ignoreCase = true) }) {
+  pluginManager.apply("com.google.gms.google-services")
+}
+
 android {
   namespace = "com.matthewblott.todos"
+  flavorDimensions += "distribution" 
   buildFeatures {
     compose = true
     buildConfig = true
@@ -41,6 +46,10 @@ android {
     includeInApk = false
     includeInBundle = false
   }
+  productFlavors {
+    create("fdroid") { dimension = "distribution" }
+    create("play")   { dimension = "distribution" }
+  } 
 }
 
 dependencies {
@@ -57,6 +66,8 @@ dependencies {
   implementation("androidx.compose.ui:ui")
   implementation("androidx.compose.ui:ui-tooling-preview")
   implementation("androidx.compose.runtime:runtime")
-  implementation("org.unifiedpush.android:connector:3.3.5")
-  implementation("org.unifiedpush.android:connector-ui:1.1.0")
+  "fdroidImplementation"("org.unifiedpush.android:connector:3.3.5")
+  "fdroidImplementation"("org.unifiedpush.android:connector-ui:1.1.0")
+  "playImplementation"(platform("com.google.firebase:firebase-bom:35.1.0"))
+  "playImplementation"("com.google.firebase:firebase-messaging")
 }
