@@ -39,3 +39,14 @@ Run the Rails server with the following command:
 rails server
 ```
 
+
+## Android
+
+The following needs to be run for `android` to create the source generated `BuildConfig` file:
+```
+cd android
+./gradlew :app:generateFdroidDebugBuildConfig
+./gradlew :app:generatePlayDebugBuildConfig
+```
+
+After that the project should work with an up to date version of Android Studio.

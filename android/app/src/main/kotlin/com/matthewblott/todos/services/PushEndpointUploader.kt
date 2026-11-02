@@ -9,7 +9,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 object PushEndpointUploader {
-  fun upload(context: Context, endpointUrl: String) {
+  fun upload(context: Context, value: String, provider: String) {
     val baseUrl = Settings.current.url
     val uploadUrl = "$baseUrl/sessions/current/push_token"
 
@@ -30,8 +30,9 @@ object PushEndpointUploader {
         connection.setRequestProperty("Cookie", cookies)
 
         val body = JSONObject().apply {
-          put("push_token", endpointUrl)
+          put("push_token", value)
           put("platform", "android")
+          put("provider", provider)
         }
 
         connection.outputStream.use { it.write(body.toString().toByteArray()) }

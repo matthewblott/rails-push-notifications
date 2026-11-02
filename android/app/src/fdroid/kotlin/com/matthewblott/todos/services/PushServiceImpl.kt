@@ -20,7 +20,7 @@ import org.unifiedpush.android.connector.data.PushMessage
 
 class PushServiceImpl : PushService() {
   override fun onNewEndpoint(endpoint: PushEndpoint, instance: String) {
-    PushEndpointUploader.upload(this, endpoint.url)
+    PushEndpointUploader.upload(this, endpoint.url, provider = "unifiedpush")
   }
 
   override fun onMessage(message: PushMessage, instance: String) {

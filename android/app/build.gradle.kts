@@ -69,5 +69,5 @@ dependencies {
   "fdroidImplementation"("org.unifiedpush.android:connector:3.3.5")
   "fdroidImplementation"("org.unifiedpush.android:connector-ui:1.1.0")
   "playImplementation"(platform("com.google.firebase:firebase-bom:35.1.0"))
-  "playImplementation"("com.google.firebase:firebase-messaging")
+  "playImplementation"(libs.firebase.messaging)
 }
