@@ -2,8 +2,14 @@ plugins {
   alias(libs.plugins.android.application)
   alias(libs.plugins.kotlin.serialization)
   alias(libs.plugins.compose.compiler)
+  alias(libs.plugins.google.services) 
 }
 
+tasks.configureEach {
+  if (name.endsWith("GoogleServices") && name.contains("Fdroid")) {
+    enabled = false
+  }
+}
 if (gradle.startParameter.taskNames.any { it.contains("play", ignoreCase = true) }) {
   pluginManager.apply("com.google.gms.google-services")
 }

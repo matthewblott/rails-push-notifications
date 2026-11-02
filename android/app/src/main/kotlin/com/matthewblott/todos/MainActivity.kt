@@ -22,9 +22,7 @@ import dev.hotwire.core.bridge.BridgeComponentFactory
 import dev.hotwire.core.turbo.config.PathConfiguration
 import com.matthewblott.todos.components.ButtonComponent
 import com.matthewblott.todos.components.ToastComponent
-import com.matthewblott.todos.helpers.PushDistributorHelper
 import com.matthewblott.todos.services.PushRegistrar
-import org.unifiedpush.android.connector.UnifiedPush
 
 class MainActivity : HotwireActivity() {
   
