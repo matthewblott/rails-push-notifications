@@ -102,22 +102,6 @@ class MainActivity : HotwireActivity() {
   
   fun requestNotificationPermission() {
     requestNotificationPermissionIfNeeded(this)
-    // val distributors = UnifiedPush.getDistributors(this)
-    // if (distributors.isEmpty()) {
-    //   // No distributor installed — prompt to install one
-    //   PushDistributorHelper.ensureDistributorAndRegister(this) {
-    //     PushDistributorHelper.showInstallPrompt(this)
-    //   }
-    // } else if (distributors.size == 1) {
-    //   // Only one available — just use it, no need to ask the user to choose
-    //   // The user needs to be signed in prior to running this because cookies are used
-    //   // and the push notifications are tied to the signed-in session.
-    //   UnifiedPush.saveDistributor(this, distributors.first())
-    //   UnifiedPush.register(this)
-    // } else {
-    //   // Multiple distributors — let the user pick (rare for most users, but possible)
-    // }
-
     PushRegistrar.register(this)
   }
   
